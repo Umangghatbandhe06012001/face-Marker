@@ -72,3 +72,18 @@ html{
   animation: shine 4s linear infinite;
   border-radius: 2px;
 }
+
+
+@media screen and (max-width: 768px) {
+  .RecordVdWr{
+    margin-top: 25px !important;
+    margin-left: 0px !important;
+  }
+
+  .vdRWr{
+    width: 100% !important;
+    height: 350px !important;
+  }
+
+  
+}

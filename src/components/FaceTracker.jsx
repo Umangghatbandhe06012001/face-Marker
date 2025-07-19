@@ -114,7 +114,7 @@ reader.readAsDataURL(blob);
   
 
   return (
-    <div className="relative w-[800px] h-[500px] rounded-[25px] overflow-hidden max-[768px]:!w-[100%] !h-[350px]">
+    <div className="relative w-[800px] h-[500px] rounded-[25px] overflow-hidden vdRWr">
       <video ref={videoRef} className="absolute w-full h-full " autoPlay muted playsInline />
       <canvas ref={canvasRef} className="absolute w-full h-full z-10" />
         <div className="absolute bottom-4 left-1/2 top-6/7 transform -translate-x-1/2 flex gap-4 z-20 w-[50px] h-[50px] bg-[white] flex justify-center items-center rounded-full max-[768px]:!w-[40px] !h-[40px]" onClick={handleStartRecording}>

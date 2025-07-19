@@ -28,10 +28,10 @@ const RecordedVideosList = () => {
   };
 
   return (
-    <div className="p-4 space-y-4 flex-1 ml-[15px] bg-[#0000] max-[768px]:!mt-[25px] !ml-[0px]">
+    <div className="p-4 space-y-4 flex-1 ml-[15px] bg-[#0000] RecordVdWr ">
       <h2 className="text-[1.3rem] font-bold p-3 w-[80%] text-center mb-[20px] text-[#ffff] font-[Poppins] max-[768px]:w-[100%]">Recorded Videos</h2>
       {videos.length === 0 ? (
-        <p className="text-[#ffff]">No videos recorded yet.</p>
+        <p className="text-[#ffff] w-[100%] text-center font-[Poppins] text-[1.1rem] mt-[10px]">No videos recorded yet.</p>
       ) : (
         <ul className="space-y-3 max-[768px]:pl-[0px]">
           {videos.map((video, index) => (
