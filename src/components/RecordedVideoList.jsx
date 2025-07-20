@@ -3,10 +3,26 @@ import { useEffect, useState } from 'react';
 const RecordedVideosList = () => {
   const [videos, setVideos] = useState([]);
 
+  
+
+
+
   useEffect(() => {
-    const storedVideos = JSON.parse(localStorage.getItem('recordedVideos')) || [];
-    setVideos(storedVideos);
+    const loadVideos = () => {
+      const storedVideos = JSON.parse(localStorage.getItem('recordedVideos')) || [];
+      setVideos(storedVideos);
+    };
+
+  
+    loadVideos();
+
+    window.addEventListener("videosUpdated", loadVideos);
+
+    return () => {
+      window.removeEventListener("videosUpdated", loadVideos);
+    };
   }, []);
+
 
   const handleView = (blobUrl) => {
     const videoWindow = window.open();
@@ -29,11 +45,11 @@ const RecordedVideosList = () => {
 
   return (
     <div className="p-4 space-y-4 flex-1 ml-[15px] bg-[#0000] RecordVdWr ">
-      <h2 className="text-[1.3rem] font-bold p-3 w-[80%] text-center mb-[20px] text-[#ffff] font-[Poppins] max-[768px]:w-[100%]">Recorded Videos</h2>
+      <h2 className="text-[1.3rem] font-bold p-3 w-[100%] text-center mb-[20px] text-[#ffff] font-[Poppins] max-[768px]:w-[100%]">Recorded Videos</h2>
       {videos.length === 0 ? (
         <p className="text-[#ffff] w-[100%] text-center font-[Poppins] text-[1.1rem] mt-[10px]">No videos recorded yet.</p>
       ) : (
-        <ul className="space-y-3 max-[768px]:pl-[0px]">
+        <ul className="space-y-3 flex flex-col items-center max-[768px]:pl-[0px] ">
           {videos.map((video, index) => (
             <li
               key={index}
@@ -45,18 +61,18 @@ const RecordedVideosList = () => {
                     src={video}
                     className="w-[200px] h-[120px] object-cover rounded-[15px] overflow-hidden max-[768px]:ml-[5px]"
                     preload="metadata"
-                    onClick={() => handleView(video)}
+                 
                     />
-              <div className="space-x-2 flex justify-between ml-[25px] max-[768px]:ml-[10px] mr-[10px]">
+              <div className="space-x-2 flex justify-between ml-[25px] btnRV">
                 <button
                   onClick={() => handleView(video)}
-                  className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 w-[5rem] mr-[10px] h-[2rem] rounded-[25px] border-none cursor-pointer max-[768px]:text-[.7rem] !w-[3.5rem]"
+                  className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 w-[5rem] mr-[10px] h-[2rem] rounded-[25px] border-none cursor-pointer max-[768px]:text-[.7rem] w-[5rem] mb-[15px]"
                 >
                   View
                 </button>
                 <button
                   onClick={() => handleDownload(video, index)}
-                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 w-[5rem] h-[2rem] rounded-[25px] border-none cursor-pointer max-[768px]:text-[.7rem] !w-[3.5rem]"
+                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 w-[5rem] h-[2rem] rounded-[25px] border-none cursor-pointer max-[768px]:text-[.7rem] w-[5rem]"
                 >
                   Download
                 </button>

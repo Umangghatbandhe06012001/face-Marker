@@ -71,14 +71,27 @@ export default function FaceTracker() {
     };
   }, [faceMeshLoaded]);
 
-   const handleStartRecording = () => {
+
+
+  const saveVideoToLocalStorage = (blobUrl) => {
+    const existing = JSON.parse(localStorage.getItem("recordedVideos")) || [];
+    const updated = [...existing, blobUrl];
+    localStorage.setItem("recordedVideos", JSON.stringify(updated));
+
+    window.dispatchEvent(new Event("videosUpdated"));
+  };
+
+
+  
+
+  const handleStartRecording = () => {
     const canvas = canvasRef.current;
     const stream = canvas.captureStream();
     const mediaRecorder = new MediaRecorder(stream);
     mediaRecorderRef.current = mediaRecorder;
 
     const chunks = [];
-    setRecordedChunks([]); // clear old data
+    setRecordedChunks([]); 
 
     mediaRecorder.ondataavailable = (e) => {
       if (e.data.size > 0) {
@@ -88,21 +101,16 @@ export default function FaceTracker() {
 
     mediaRecorder.onstop = () => {
       const blob = new Blob(chunks, { type: 'video/webm' });
-
-      const reader = new FileReader();
-reader.onloadend = () => {
-  const base64data = reader.result;
-  const prevVideos = JSON.parse(localStorage.getItem('recordedVideos') || '[]');
-  localStorage.setItem('recordedVideos', JSON.stringify([...prevVideos, base64data]));
-};
-reader.readAsDataURL(blob);
-
+      const blobUrl = URL.createObjectURL(blob);
+      saveVideoToLocalStorage(blobUrl); 
       setRecordedChunks([]);
     };
 
     mediaRecorder.start();
     setRecording(true);
-  };
+};
+
+
 
   const handleStopRecording = () => {
     mediaRecorderRef.current?.stop();
@@ -117,7 +125,7 @@ reader.readAsDataURL(blob);
     <div className="relative w-[800px] h-[500px] rounded-[25px] overflow-hidden vdRWr">
       <video ref={videoRef} className="absolute w-full h-full " autoPlay muted playsInline />
       <canvas ref={canvasRef} className="absolute w-full h-full z-10" />
-        <div className="absolute bottom-4 left-1/2 top-6/7 transform -translate-x-1/2 flex gap-4 z-20 w-[50px] h-[50px] bg-[white] flex justify-center items-center rounded-full max-[768px]:!w-[40px] !h-[40px]" onClick={handleStartRecording}>
+        <div className="absolute bottom-4 left-1/2 top-6/7 transform -translate-x-1/2 flex gap-4 z-20 w-[50px] h-[50px] bg-[white] flex justify-center items-center rounded-full recorBtn" onClick={handleStartRecording}>
        
          
         <RecordButton onStart={handleStartRecording} onStop={handleStopRecording} />

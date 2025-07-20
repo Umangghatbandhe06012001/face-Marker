@@ -85,5 +85,17 @@ html{
     height: 350px !important;
   }
 
+  .recorBtn{
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .btnRV{
+    flex-direction: column ;
+    margin-left: 10px;
+    margin-right: 10px;
+
+  }
+
   
 }
